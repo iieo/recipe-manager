@@ -29,16 +29,17 @@ export async function dbDeleteRecipe(recipeId: number) {
 export async function dbSelectIngredients(recipeId: number) {
   return await db
     .select()
-    .from(ingredientTable)
-    .where(eq(ingredientTable.id, recipeId));
+    .from(recipeTable)
+    .innerJoin(ingredientTable, eq(recipeTable.id, recipeId));
 }
 
 export async function dbInsertIngredient(
   name: string,
   amount: number,
-  unit: Unit
+  unit: Unit,
+  recipeId: number
 ) {
-  await db.insert(ingredientTable).values({ name, amount, unit });
+  await db.insert(ingredientTable).values({ name, amount, unit, recipeId });
 }
 
 export async function dbDeleteIngredient(ingredientId: number) {

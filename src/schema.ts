@@ -1,3 +1,4 @@
+import { Many, relations } from "drizzle-orm";
 import { integer, pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 
 const unitEnum = pgEnum("unit", ["Kg", "g"]);
@@ -18,6 +19,10 @@ const ingredientTable = pgTable("ingredients", {
   unit: unitEnum("unit").notNull().default("Kg"),
 });
 
+export const ingredientsRelation = relations(ingredientTable, ({ many }) => ({
+  posts: many(recipeTable),
+}));
+
 export type Recipe = {
   id: number;
   name: string;
@@ -30,7 +35,7 @@ export type Ingredient = {
   id: number;
   recipeId: number;
   name: string;
-  amounnt: number;
+  amount: number;
   unit: Unit;
 };
 

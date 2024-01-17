@@ -1,14 +1,19 @@
 "use client";
 
-import { dbInsertRecipe } from "@/database_interactions";
+import { dbInsertIngredient } from "@/database_interactions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function RecipeForm() {
+type IngredientFormProps = {
+  recipeId: number;
+};
+
+export default function IngredientForm({ recipeId }: IngredientFormProps) {
   const router = useRouter();
 
   const [name, setName] = useState<string | null>();
-  const [duration, setDuration] = useState<string | null>();
+  const [amount, setAmount] = useState<string | null>();
+  const [grams, setGrams] = useState<boolean>(true);
 
   let handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,15 +22,20 @@ export default function RecipeForm() {
       alert("Please enter a valid recipe name");
       return;
     }
-    if (duration === null || isNaN(Number(duration))) {
-      alert("Please enter a valid recipe duration");
+    if (amount === null || isNaN(Number(amount))) {
+      alert("Please enter a valid recipe amount");
+      return;
+    }
+    try {
+      dbInsertIngredient(name!, Number(amount), grams ? "g" : "Kg", recipeId);
+    } catch (e) {
+      console.error(e);
       return;
     }
 
-    dbInsertRecipe(name!, Number(duration));
-
-    setDuration("");
+    setAmount("");
     setName("");
+    setGrams(true);
 
     router.refresh();
   };
@@ -45,17 +55,29 @@ export default function RecipeForm() {
         type="text"
         className="border-2 rounded p-2 mb-4 mt-2"
       />
-      <label htmlFor="duration">Duration</label>
+      <label htmlFor="amount">Amount</label>
       <input
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          setDuration(event.target.value)
+          setAmount(event.target.value)
         }
-        name="duration"
-        value={duration ?? ""}
-        id="duration"
+        name="amount"
+        value={amount ?? ""}
+        id="amount"
         type="number"
         className="border-2 rounded p-2 mb-4 mt-2"
       />
+      <label htmlFor="unit">Unit</label>
+      <span>
+        Is the unit grams?
+        <input
+          onChange={() => setGrams(!grams)}
+          name="unit"
+          checked={grams}
+          id="unit"
+          type="checkbox"
+          className="border-2 rounded p-2 mb-4 mt-2 ml-2"
+        />
+      </span>
       <input
         type="submit"
         value={"Add"}

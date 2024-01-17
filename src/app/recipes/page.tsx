@@ -8,9 +8,9 @@ export default async function RecipeScreen() {
 
   return (
     <main className="p-24 flex flex-col">
-      <h1 className="text-2xl font-bold my-4">Add Recipe</h1>
+      <h1 className="text-3xl font-bold my-4">Add Recipe</h1>
       <RecipeForm />
-      <h1 className="text-2xl font-bold my-4">Recipe Overview</h1>
+      <h1 className="text-3xl font-bold my-4">Recipe Overview</h1>
       {allRecipes.map((recipe) => (
         <RecipeCard recipe={recipe} key={recipe.id} />
       ))}
