@@ -94,7 +94,7 @@
     "unit": {
       "name": "unit",
       "values": {
-        "Kg": "Kg",
+        kg: kg,
         "g": "g"
       }
     }

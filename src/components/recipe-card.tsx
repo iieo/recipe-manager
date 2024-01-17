@@ -1,6 +1,6 @@
 "use client";
 
-import { dbDeleteRecipe } from "@/database_interactions";
+import { dbDeleteRecipe } from "@/database-interactions";
 import { Recipe } from "@/schema";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

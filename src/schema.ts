@@ -1,7 +1,13 @@
-import { Many, relations } from "drizzle-orm";
+import {
+  InferModel,
+  InferModelFromColumns,
+  InferSelectModel,
+  Many,
+  relations,
+} from "drizzle-orm";
 import { integer, pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 
-const unitEnum = pgEnum("unit", ["Kg", "g"]);
+const unitEnum = pgEnum("unit", ["kg", "g"]);
 
 const recipeTable = pgTable("recipes", {
   id: serial("id").primaryKey(),
@@ -16,27 +22,13 @@ const ingredientTable = pgTable("ingredients", {
     .references(() => recipeTable.id),
   name: varchar("name").notNull(),
   amount: integer("amount").notNull().default(0),
-  unit: unitEnum("unit").notNull().default("Kg"),
+  unit: unitEnum("unit").notNull().default("kg"),
 });
 
-export const ingredientsRelation = relations(ingredientTable, ({ many }) => ({
-  posts: many(recipeTable),
-}));
+export type Recipe = InferSelectModel<typeof recipeTable>;
 
-export type Recipe = {
-  id: number;
-  name: string;
-  duration: number;
-};
+export type Unit = "kg" | "g";
 
-export type Unit = "Kg" | "g";
-
-export type Ingredient = {
-  id: number;
-  recipeId: number;
-  name: string;
-  amount: number;
-  unit: Unit;
-};
+export type Ingredient = InferSelectModel<typeof ingredientTable>;
 
 export { unitEnum, recipeTable, ingredientTable };
