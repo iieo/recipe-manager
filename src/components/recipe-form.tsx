@@ -38,14 +38,14 @@ export default function RecipeForm({ recipe }: RecipeFormProps) {
     if (isUpdate) {
       if (recipe?.id !== undefined) {
         dbUpdateRecipe(recipe.id, name ?? "Error", Number(duration));
+        router.push(`/recipes/${recipe?.id}`);
       }
     } else {
       dbInsertRecipe(name ?? "Error", Number(duration));
       setDuration("");
       setName("");
+      router.refresh();
     }
-
-    router.push(`/recipes/${recipe?.id}`);
   };
   return (
     <form
