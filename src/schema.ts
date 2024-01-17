@@ -1,10 +1,4 @@
-import {
-  InferModel,
-  InferModelFromColumns,
-  InferSelectModel,
-  Many,
-  relations,
-} from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import { integer, pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 
 const unitEnum = pgEnum("unit", ["kg", "g"]);
@@ -24,6 +18,10 @@ const ingredientTable = pgTable("ingredients", {
   amount: integer("amount").notNull().default(0),
   unit: unitEnum("unit").notNull().default("kg"),
 });
+
+export const ingredientsRelation = relations(ingredientTable, ({ many }) => ({
+  posts: many(recipeTable),
+}));
 
 export type Recipe = InferSelectModel<typeof recipeTable>;
 

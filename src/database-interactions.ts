@@ -36,8 +36,8 @@ export async function dbDeleteRecipe(recipeId: number): Promise<void> {
 export async function dbSelectIngredients(recipeId: number) {
   return await db
     .select()
-    .from(recipeTable)
-    .innerJoin(ingredientTable, eq(recipeTable.id, recipeId));
+    .from(ingredientTable)
+    .where(eq(ingredientTable.recipeId, recipeId));
 }
 
 export async function dbInsertIngredient(

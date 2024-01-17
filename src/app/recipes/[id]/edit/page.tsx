@@ -13,6 +13,7 @@ export default async function EditScreen({ params }: EditScreenProps) {
   }
 
   const selectedRecipes = await dbSelectRecipe(recipeId);
+  console.log(selectedRecipes);
   if (selectedRecipes.length !== 1) {
     return <Error error={"Problems fetching recipe"} />;
   }

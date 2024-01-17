@@ -1,5 +1,5 @@
 {
-  "id": "5b8b81f3-7211-42fb-8c79-141965c5e847",
+  "id": "ecffb2b5-643c-48ba-ac80-d4947c156a3b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -18,7 +18,7 @@
           "name": "recipeId",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -30,15 +30,15 @@
           "name": "amount",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": 0
         },
         "unit": {
           "name": "unit",
           "type": "unit",
           "primaryKey": false,
-          "notNull": false,
-          "default": "'Kg'"
+          "notNull": true,
+          "default": "'kg'"
         }
       },
       "indexes": {},
@@ -80,7 +80,7 @@
           "name": "duration",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": 0
         }
       },
@@ -94,7 +94,7 @@
     "unit": {
       "name": "unit",
       "values": {
-        kg: kg,
+        "kg": "kg",
         "g": "g"
       }
     }
