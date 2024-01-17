@@ -1,6 +1,6 @@
 "use client";
 
-import { dbInsertIngredient } from "@/database_interactions";
+import { dbInsertIngredient } from "@/database-interactions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -27,7 +27,7 @@ export default function IngredientForm({ recipeId }: IngredientFormProps) {
       return;
     }
     try {
-      dbInsertIngredient(name!, Number(amount), grams ? "g" : "Kg", recipeId);
+      dbInsertIngredient(name!, Number(amount), grams ? "g" : "kg", recipeId);
     } catch (e) {
       console.error(e);
       return;

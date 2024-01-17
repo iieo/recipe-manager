@@ -1,6 +1,6 @@
 import RecipeCard from "@/components/recipe-card";
 import RecipeForm from "@/components/recipe-form";
-import { dbSelectRecipes } from "@/database_interactions";
+import { dbSelectRecipes } from "@/database-interactions";
 import { Recipe } from "@/schema";
 
 export default async function RecipeScreen() {

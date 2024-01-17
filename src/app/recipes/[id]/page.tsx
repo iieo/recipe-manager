@@ -2,7 +2,7 @@ import Error from "@/components/error";
 import IngredientCard from "@/components/ingredient-card";
 import InGredientCard from "@/components/ingredient-card";
 import IngredientForm from "@/components/ingredient-form";
-import { dbSelectIngredients, dbSelectRecipe } from "@/database_interactions";
+import { dbSelectIngredients, dbSelectRecipe } from "@/database-interactions";
 import { Ingredient, Recipe } from "@/schema";
 import Link from "next/link";
 
@@ -35,7 +35,7 @@ export default async function IngredientsScreen({
       name: string;
       recipeId: number;
       amount: number;
-      unit: "Kg" | "g";
+      unit: "kg" | "g";
     };
   }[] = await dbSelectIngredients(recipeId);
 

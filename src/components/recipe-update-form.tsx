@@ -5,15 +5,15 @@ import { Recipe } from "@/schema";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type RecipeFormProps = {
-  recipe?: Recipe;
+type RecipeUpdateFormProps = {
+  recipe: Recipe;
 };
 
-export default function RecipeForm() {
+export default function RecipeUpdateForm({ recipe }: RecipeUpdateFormProps) {
   const router = useRouter();
 
-  const [name, setName] = useState("");
-  const [duration, setDuration] = useState(0);
+  const [name, setName] = useState(recipe.name);
+  const [duration, setDuration] = useState(recipe.duration);
 
   let handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,10 +27,10 @@ export default function RecipeForm() {
       return;
     }
 
-    dbInsertRecipe(name ?? "Error", Number(duration));
-    setDuration(0);
-    setName("");
-    router.refresh();
+    if (recipe?.id !== undefined) {
+      dbUpdateRecipe(recipe.id, name ?? "Error", Number(duration));
+      router.push(`/recipes/${recipe?.id}`);
+    }
   };
   return (
     <form
@@ -59,14 +59,14 @@ export default function RecipeForm() {
           }
         }}
         name="duration"
-        value={duration ?? ""}
+        value={duration}
         id="duration"
         type="number"
         className="border-2 rounded p-2 mb-4 mt-2"
       />
       <input
         type="submit"
-        value={"Add"}
+        value={"Update"}
         className="border-2 rounded p-2 mb-4 mt-2 hover:bg-slate-500 transition text-white bg-slate-600"
       />
     </form>

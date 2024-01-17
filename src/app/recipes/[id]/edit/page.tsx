@@ -1,6 +1,6 @@
 import Error from "@/components/error";
-import RecipeForm from "@/components/recipe-form";
-import { dbSelectRecipe } from "@/database_interactions";
+import RecipeUpdateForm from "@/components/recipe-update-form";
+import { dbSelectRecipe } from "@/database-interactions";
 
 type EditScreenProps = {
   params: { id: number };
@@ -20,7 +20,7 @@ export default async function EditScreen({ params }: EditScreenProps) {
 
   return (
     <main className="p-24 flex flex-col">
-      <RecipeForm recipe={recipe} />
+      <RecipeUpdateForm recipe={recipe} />
     </main>
   );
 }
