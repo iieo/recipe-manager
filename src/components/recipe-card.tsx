@@ -19,8 +19,8 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         <p>{recipe.duration} Minuten</p>
       </Link>
       <button
-        onClick={() => {
-          dbDeleteRecipe(recipe.id);
+        onClick={async() => {
+          await dbDeleteRecipe(recipe.id);
           router.refresh();
         }}
         className="border-l-2 p-4 hover:text-white hover:bg-slate-500"

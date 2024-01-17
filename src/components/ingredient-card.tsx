@@ -20,8 +20,8 @@ export default function IngredientCard({ ingredient }: IngredientCardProps) {
         <p>{`${ingredient.amount} ${ingredient.unit}`}</p>
       </div>
       <button
-        onClick={() => {
-          dbDeleteIngredient(ingredient.id);
+        onClick={async () => {
+          await dbDeleteIngredient(ingredient.id);
           router.refresh();
         }}
         className="border-l-2 p-4 hover:text-white hover:bg-slate-500"

@@ -29,7 +29,7 @@ export async function dbUpdateRecipe(
     .set({ name, duration })
     .where(eq(recipeTable.id, recipeId));
 }
-export async function dbDeleteRecipe(recipeId: number) {
+export async function dbDeleteRecipe(recipeId: number): Promise<void> {
   await db.delete(recipeTable).where(eq(recipeTable.id, recipeId));
 }
 
@@ -49,6 +49,6 @@ export async function dbInsertIngredient(
   await db.insert(ingredientTable).values({ name, amount, unit, recipeId });
 }
 
-export async function dbDeleteIngredient(ingredientId: number) {
+export async function dbDeleteIngredient(ingredientId: number): Promise<void> {
   await db.delete(ingredientTable).where(eq(ingredientTable.id, ingredientId));
 }
