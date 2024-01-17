@@ -19,6 +19,10 @@ const ingredientTable = pgTable("ingredients", {
   unit: unitEnum("unit").notNull().default("kg"),
 });
 
+export const ingredientsRelation = relations(ingredientTable, ({ many }) => ({
+  posts: many(recipeTable),
+}));
+
 export type Recipe = InferSelectModel<typeof recipeTable>;
 
 export type Unit = "kg" | "g";
