@@ -1,10 +1,4 @@
-import {
-  InferModel,
-  InferModelFromColumns,
-  InferSelectModel,
-  Many,
-  relations,
-} from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import { integer, pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 
 const unitEnum = pgEnum("unit", ["kg", "g"]);

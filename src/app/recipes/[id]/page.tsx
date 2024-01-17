@@ -19,30 +19,15 @@ export default async function IngredientsScreen({
   }
 
   const selectedRecipes = await dbSelectRecipe(recipeId);
+
   if (selectedRecipes.length !== 1) {
     return <Error error={"Problems fetching recipe"} />;
   }
   const recipe = selectedRecipes[0];
 
-  const fetchedIngredients: {
-    recipes: {
-      id: number;
-      name: string;
-      duration: number;
-    };
-    ingredients: {
-      id: number;
-      name: string;
-      recipeId: number;
-      amount: number;
-      unit: "kg" | "g";
-    };
-  }[] = await dbSelectIngredients(recipeId);
+  const ingredients = await dbSelectIngredients(recipeId);
 
-  const ingredients: Ingredient[] = fetchedIngredients.map(
-    (joinItem) => joinItem.ingredients
-  );
-
+  console.log(ingredients);
   return (
     <main className="p-24 flex flex-col">
       <div className="flex mb-4">

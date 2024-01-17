@@ -1,5 +1,4 @@
 {
-    "out": "./migrations",
-    "schema": "./src/schema.ts"
-  }
-  
+  "out": "./migrations",
+  "schema": "./src/schema.ts"
+}
