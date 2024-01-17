@@ -52,9 +52,7 @@ export default function RecipeUpdateForm({ recipe }: RecipeUpdateFormProps) {
       <input
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           const value = Number(event.target.value);
-          if (isNaN(value)) {
-            event.preventDefault();
-          } else {
+          if (!isNaN(value) && event.target.value !== "") {
             setDuration(value);
           }
         }}

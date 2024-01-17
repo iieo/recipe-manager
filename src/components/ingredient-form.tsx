@@ -11,18 +11,18 @@ type IngredientFormProps = {
 export default function IngredientForm({ recipeId }: IngredientFormProps) {
   const router = useRouter();
 
-  const [name, setName] = useState<string | null>();
-  const [amount, setAmount] = useState<string | null>();
+  const [name, setName] = useState("");
+  const [amount, setAmount] = useState(0);
   const [grams, setGrams] = useState<boolean>(true);
 
   let handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (name === null) {
+    if (name.length < 2) {
       alert("Please enter a valid recipe name");
       return;
     }
-    if (amount === null || isNaN(Number(amount)) || Number(amount) <= 0) {
+    if (isNaN(amount) || amount <= 0) {
       alert("Please enter a valid recipe amount");
       return;
     }
@@ -33,7 +33,7 @@ export default function IngredientForm({ recipeId }: IngredientFormProps) {
       return;
     }
 
-    setAmount("");
+    setAmount(0);
     setName("");
     setGrams(true);
 
@@ -57,9 +57,12 @@ export default function IngredientForm({ recipeId }: IngredientFormProps) {
       />
       <label htmlFor="amount">Amount</label>
       <input
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          setAmount(event.target.value)
-        }
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          const value = Number(event.target.value);
+          if (!isNaN(value) && event.target.value !== "") {
+            setAmount(value);
+          }
+        }}
         name="amount"
         value={amount ?? ""}
         id="amount"
