@@ -22,7 +22,7 @@ export default function IngredientForm({ recipeId }: IngredientFormProps) {
       alert("Please enter a valid recipe name");
       return;
     }
-    if (amount === null || isNaN(Number(amount))) {
+    if (amount === null || isNaN(Number(amount)) || Number(amount) <= 0) {
       alert("Please enter a valid recipe amount");
       return;
     }

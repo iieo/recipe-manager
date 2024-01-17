@@ -25,7 +25,7 @@ export default function RecipeForm({ recipe }: RecipeFormProps) {
       alert("Please enter a valid recipe name");
       return;
     }
-    if (duration === null || isNaN(Number(duration))) {
+    if (duration === null || isNaN(Number(duration)) || Number(duration) <= 0) {
       alert("Please enter a valid recipe duration");
       return;
     }
