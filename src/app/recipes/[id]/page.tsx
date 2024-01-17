@@ -1,27 +1,28 @@
+import Error from "@/components/error";
 import IngredientCard from "@/components/ingredient-card";
 import InGredientCard from "@/components/ingredient-card";
 import IngredientForm from "@/components/ingredient-form";
-import { dbSelectIngredients } from "@/database_interactions";
+import { dbSelectIngredients, dbSelectRecipe } from "@/database_interactions";
 import { Ingredient, Recipe } from "@/schema";
+import Link from "next/link";
 
 type IngredientsScreenProps = {
   params: { id: number };
 };
 
-function Error({ error }: { error: string }) {
-  return (
-    <div className="flex min-h-screen place-items-center justify-center align-center">
-      <h1 className="text-4xl">Error: {error}</h1>
-    </div>
-  );
-}
-
 export default async function IngredientsScreen({
   params,
 }: IngredientsScreenProps) {
-  if (isNaN(Number(params.id))) {
+  const recipeId = Number(params.id);
+  if (isNaN(recipeId)) {
     return <Error error={"Invalid recipe id"} />;
   }
+
+  const selectedRecipes = await dbSelectRecipe(recipeId);
+  if (selectedRecipes.length !== 1) {
+    return <Error error={"Problems fetching recipe"} />;
+  }
+  const recipe = selectedRecipes[0];
 
   const fetchedIngredients: {
     recipes: {
@@ -36,7 +37,8 @@ export default async function IngredientsScreen({
       amount: number;
       unit: "Kg" | "g";
     };
-  }[] = await dbSelectIngredients(Number(params.id));
+  }[] = await dbSelectIngredients(recipeId);
+  Number(params.id);
 
   if (fetchedIngredients.length === 0) {
     return <Error error={"Invalid recipe id"} />;
@@ -48,11 +50,18 @@ export default async function IngredientsScreen({
 
   return (
     <main className="p-24 flex flex-col">
-      <h1 className="text-3xl mb-4">Recipe with id {params.id}</h1>
+      <div className="flex mb-4">
+        <h1 className="text-3xl grow">
+          Recipe {recipe.name} ({recipe.duration} Minuten)
+        </h1>
+        <Link href={`./${recipe.id}/edit`} className="rounded border-2 p-4">
+          Edit
+        </Link>
+      </div>
       {ingredients.length === 0 && (
         <h1 className="my-8 ">No ingredients found for recipe</h1>
       )}
-      <IngredientForm recipeId={params.id} />
+      <IngredientForm recipeId={recipeId} />
       {ingredients.map((ingredient) => (
         <IngredientCard ingredient={ingredient} key={ingredient.id} />
       ))}

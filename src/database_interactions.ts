@@ -8,6 +8,13 @@ export async function dbSelectRecipes() {
   return await db.select().from(recipeTable);
 }
 
+export async function dbSelectRecipe(recipeId: number) {
+  return await db
+    .select()
+    .from(recipeTable)
+    .where(eq(recipeTable.id, recipeId));
+}
+
 export async function dbInsertRecipe(name: string, duration: number) {
   await db.insert(recipeTable).values({ name, duration });
 }

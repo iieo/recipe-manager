@@ -1,19 +1,27 @@
 "use client";
 
-import { dbInsertRecipe } from "@/database_interactions";
+import { dbInsertRecipe, dbUpdateRecipe } from "@/database_interactions";
+import { Recipe } from "@/schema";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function RecipeForm() {
+type RecipeFormProps = {
+  recipe?: Recipe;
+};
+
+export default function RecipeForm({ recipe }: RecipeFormProps) {
+  const isUpdate: boolean = !!recipe;
   const router = useRouter();
 
-  const [name, setName] = useState<string | null>();
-  const [duration, setDuration] = useState<string | null>();
+  const [name, setName] = useState<string>(isUpdate ? recipe?.name ?? "" : "");
+  const [duration, setDuration] = useState<string>(
+    isUpdate ? recipe?.duration.toString() ?? "" : ""
+  );
 
   let handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (name === null) {
+    if (name.length < 2) {
       alert("Please enter a valid recipe name");
       return;
     }
@@ -22,12 +30,22 @@ export default function RecipeForm() {
       return;
     }
 
-    dbInsertRecipe(name!, Number(duration));
+    if (recipe === null && isUpdate) {
+      alert("Error while updating an unknown recipe");
+      return;
+    }
 
-    setDuration("");
-    setName("");
+    if (isUpdate) {
+      if (recipe?.id !== undefined) {
+        dbUpdateRecipe(recipe.id, name ?? "Error", Number(duration));
+      }
+    } else {
+      dbInsertRecipe(name ?? "Error", Number(duration));
+      setDuration("");
+      setName("");
+    }
 
-    router.refresh();
+    router.push(`/recipes/${recipe?.id}`);
   };
   return (
     <form
@@ -58,7 +76,7 @@ export default function RecipeForm() {
       />
       <input
         type="submit"
-        value={"Add"}
+        value={isUpdate ? "Update" : "Add"}
         className="border-2 rounded p-2 mb-4 mt-2 hover:bg-slate-500 transition text-white bg-slate-600"
       />
     </form>
