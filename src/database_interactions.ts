@@ -1,9 +1,11 @@
+"use server";
+
 import { eq } from "drizzle-orm";
 import db from "./connnection";
 import { Unit, ingredientTable, recipeTable } from "./schema";
 
 export async function dbSelectRecipes() {
-  await db.select().from(recipeTable);
+  return await db.select().from(recipeTable);
 }
 
 export async function dbInsertRecipe(name: string, duration: number) {
@@ -25,7 +27,7 @@ export async function dbDeleteRecipe(recipeId: number) {
 }
 
 export async function dbSelectIngredients(recipeId: number) {
-  await db
+  return await db
     .select()
     .from(ingredientTable)
     .where(eq(ingredientTable.id, recipeId));

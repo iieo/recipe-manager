@@ -5,15 +5,17 @@ const unitEnum = pgEnum("unit", ["Kg", "g"]);
 const recipeTable = pgTable("recipes", {
   id: serial("id").primaryKey(),
   name: varchar("name").notNull(),
-  duration: integer("duration").default(0),
+  duration: integer("duration").notNull().default(0),
 });
 
 const ingredientTable = pgTable("ingredients", {
   id: serial("id").primaryKey(),
-  recipeId: integer("recipeId").references(() => recipeTable.id),
+  recipeId: integer("recipeId")
+    .notNull()
+    .references(() => recipeTable.id),
   name: varchar("name").notNull(),
-  amount: integer("amount").default(0),
-  unit: unitEnum("unit").default("Kg"),
+  amount: integer("amount").notNull().default(0),
+  unit: unitEnum("unit").notNull().default("Kg"),
 });
 
 export type Recipe = {
