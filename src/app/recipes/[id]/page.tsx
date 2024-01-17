@@ -38,11 +38,6 @@ export default async function IngredientsScreen({
       unit: "Kg" | "g";
     };
   }[] = await dbSelectIngredients(recipeId);
-  Number(params.id);
-
-  if (fetchedIngredients.length === 0) {
-    return <Error error={"Invalid recipe id"} />;
-  }
 
   const ingredients: Ingredient[] = fetchedIngredients.map(
     (joinItem) => joinItem.ingredients
